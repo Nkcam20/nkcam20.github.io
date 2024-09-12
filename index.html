@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dark Mode Switcher</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <style>
         /* Default light mode styles */
         body {
             background-color: #f2f2f2;
             color: #333;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
         
         /* Dark mode styles */
@@ -16,11 +23,37 @@
             background-color: #333;
             color: #f2f2f2;
         }
+        
+        /* Dark mode toggle button styles */
+        .dark-mode-toggle {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background-color: #333;
+            color: #f2f2f2;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .dark-mode-toggle:hover {
+            background-color: #444;
+        }
+        
+        /* Content styles */
+        #content {
+            font-size: 2rem;
+            font-weight: bold;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
-    <!-- Dark mode switcher button -->
-    <button id="dark-mode-switcher" class="top-right">Toggle Dark Mode</button>
+    <!-- Dark mode toggle button -->
+    <button class="dark-mode-toggle" id="dark-mode-switcher">
+        <i class="fas fa-moon" id="dark-mode-icon"></i>
+    </button>
     
     <!-- Content -->
     <h1 id="content">Nanda Kumar</h1>
@@ -28,6 +61,7 @@
     <script>
         // Get the dark mode switcher button and content elements
         const darkModeSwitcher = document.getElementById('dark-mode-switcher');
+        const darkModeIcon = document.getElementById('dark-mode-icon');
         const content = document.getElementById('content');
 
         // Check if the user has a preferred color scheme set in their browser
@@ -37,12 +71,20 @@
         // Set the initial dark mode state based on the user's browser preference
         if (isDarkMode) {
             document.body.classList.add('dark-mode');
+            darkModeIcon.classList.add('fa-sun');
         }
 
         // Add an event listener to the dark mode switcher button
         darkModeSwitcher.addEventListener('click', () => {
             // Toggle the dark mode class on the body element
             document.body.classList.toggle('dark-mode');
+
+            // Toggle the dark mode icon
+            if (document.body.classList.contains('dark-mode')) {
+                darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                darkModeIcon.classList.replace('fa-sun', 'fa-moon');
+            }
 
             // Store the user's preference in local storage
             localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
@@ -54,6 +96,7 @@
             isDarkMode = storedDarkMode === 'true';
             if (isDarkMode) {
                 document.body.classList.add('dark-mode');
+                darkModeIcon.classList.add('fa-sun');
             }
         }
     </script>
